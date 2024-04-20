@@ -1,0 +1,11 @@
+server :
+    port : 8080
+
+schedule:
+  cron: 0/10 * * * * *
+  use: true
+
+spring :
+    output :
+        ansi :
+            enabled : always

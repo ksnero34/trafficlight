@@ -1,30 +1,41 @@
 package com.hwgi.plc.trafficlight.service;
 
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.hwgi.plc.trafficlight.model.TrafficStatusData;
+import org.springframework.stereotype.Service;
+
+import com.hwgi.plc.trafficlight.trafficStatusData.TrafficStatusData;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Slf4j
 public class TrafficStatusGetter {
-    private TrafficStatusData Status;
+    //테스트용
+    private TrafficStatusData Status = new TrafficStatusData();
+    //실데이터 담기
+    private List<TrafficStatusData> StatusList = new ArrayList<>();
 
     private void requestToPlc(){
-        int current = Status.getWaitCnt();
-        Status.setWaitCnt(current + 1);
+        int current = this.Status.getWaitCnt();
+        this.Status.setWaitCnt(current + 1);
         if(current > 3)
-            Status.setWaiting(true);
+            this.Status.setWaiting(true);
         else 
-            Status.setWaiting(false);
+            this.Status.setWaiting(false);
     }
 
     public void run() {
-        // 유량제어 was와 통신 후 dto 객체에 값 담기
+        // 유량제어 was와 통신 후 데이터 객체에 값 담기
         requestToPlc();
         log.info("통신완료");
+        log.info("{}----{}",this.Status.isWaiting(),this.Status.getWaitCnt());
+    }
+
+    public String getAll() {
+        return this.Status.isWaiting() + "---" + this.Status.getWaitCnt() ; 
     }
 }

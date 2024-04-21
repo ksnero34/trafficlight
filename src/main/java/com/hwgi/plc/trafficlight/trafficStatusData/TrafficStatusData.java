@@ -10,6 +10,7 @@ import lombok.*;
 @Setter
 @ToString
 public class TrafficStatusData {
+    String  uniqueId;
     boolean isWaiting;
     int     waitCnt;
 
@@ -18,6 +19,7 @@ public class TrafficStatusData {
       //초기화 코드 진행
       this.isWaiting = false;
       this.waitCnt = 0;
+      this.uniqueId = "uid";
     }
 
 }
